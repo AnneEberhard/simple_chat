@@ -1,0 +1,53 @@
+{% extends "base.html" %} 
+{% block content %} 
+{% if request.user.is_authenticated %}
+<body>
+    <h2>Which chat room would you like to enter?</h2>
+    <h4>Click one of the buttons or enter a new name to create a new chatroom.</h4>
+    <div id="chat-room-buttons">
+        {% for chat in chat_rooms %}
+            <button onclick="location.href='/chat/{{ chat.slug }}/'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                {{ chat.room_name }}
+            </button>
+        {% endfor %}
+    </div>
+    <br>
+    <div class="central">
+        <input id="room-name-input" type="text" size="100" class="mdl-textfield__input"><br>
+        <input id="room-name-submit" type="button" value="Enter" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputField = document.querySelector('#room-name-input');
+            const submitButton = document.querySelector('#room-name-submit');
+        
+            inputField.focus();
+
+            inputField.addEventListener('input', function() {
+                let currentValue = inputField.value;
+                if (currentValue.length > 0) {
+                    inputField.value = currentValue[0].toUpperCase() + currentValue.slice(1);
+                }
+            });
+        
+            inputField.onkeyup = function(e) {
+                if (e.key === 'Enter') {
+                    submitButton.click();
+                }
+            };
+        
+            submitButton.onclick = function() {
+                let roomName = inputField.value;
+                let roomSlug = slugify(roomName); 
+                window.location.pathname = '/chat/' + roomSlug + '/';
+            };
+        });
+    </script>
+{% else %}
+<h1>Not logged in</h1>
+<p>
+  You are not logged in. Please log in.<br />
+  Please click <a href="/login/">here</a>.
+</p>
+{% endif %} 
+{% endblock %}
