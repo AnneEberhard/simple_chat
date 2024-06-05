@@ -39,4 +39,10 @@
   Please click <a href="/login/">here</a>.
 </p>
 {% endif %} 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  let messageField = document.getElementById('messageField');
+  messageField.focus();
+});
+</script>
 {% endblock %}
