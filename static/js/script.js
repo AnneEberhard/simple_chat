@@ -32,12 +32,9 @@ async function sendMessage() {
       method: "POST",
       body: fd,
     });
-    console.log('test');
     let jsonText = await response.json();
-    let json = JSON.parse(jsonText);
-    console.log(json);
-    console.log(json.fields);
-    console.log(json.fields.text);
+    let jsonArray = JSON.parse(jsonText);
+    let json = jsonArray[0];
     renderSentMessage(
       json["fields"]["text"],
       json["fields"]["author"],
