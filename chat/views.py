@@ -49,10 +49,9 @@ def send_message(request, room_slug):
     :param room_slug: The slug of the chat room to send the message to.
     :return: JsonResponse with the serialized message.
     """
-    username = request.user.first_name if request.user.is_authenticated else "DefaultUsername" 
-    if request.method == 'POST':    
+    username = request.user.first_name if request.user.is_authenticated else "DefaultUsername"
+    if request.method == 'POST':
         myChat = get_object_or_404(Chat, slug=room_slug)
-        print(f'chat = ', myChat)
         newMessage = Message.objects.create(text=request.POST['textmessage'], chat=myChat, author=request.user, receiver=request.user)
         serializedMessage = json.dumps([{
             "model": "chat.message",
@@ -66,8 +65,8 @@ def send_message(request, room_slug):
             }
         }])
         return JsonResponse(serializedMessage, safe=False, content_type='application/json')
-    chatMessages = Message.objects.filter(chat__id=myChat) 
-    return render(request, 'chat/index.html', {'messages': chatMessages,'username': username }) 
+    chatMessages = Message.objects.filter(chat__id=myChat)
+    return render(request, 'chat/index.html', {'messages': chatMessages, 'username': username})
 
 
 def login_view(request):

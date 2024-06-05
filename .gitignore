@@ -1,5 +1,6 @@
 db.sqlite3
 .env
+.flake8
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
